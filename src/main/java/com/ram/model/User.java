@@ -1,4 +1,4 @@
-package com.ram;
+package com.ram.model;
 
 public class User {
     private String name;
