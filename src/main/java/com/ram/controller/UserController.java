@@ -3,7 +3,10 @@ package com.ram.controller;
 import com.ram.model.User;
 import com.ram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +18,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public String hello() {
-        return "welcome";
+    @EventListener
+    public void obserbLoginAttempt(InteractiveAuthenticationSuccessEvent event){
+        UserDetails userDetails=(org.springframework.security.core.userdetails.User)event.getAuthentication().getPrincipal();
+        System.out.println(userDetails.getUsername()+" logged in successfully");
     }
 
     @GetMapping("/users")
